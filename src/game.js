@@ -1,6 +1,6 @@
 import { Canvas } from "./canvas.js";
 import { Sprite } from "./sprite.js";
-import { GameObject } from "./GameObject.js";
+import { GameObject } from "./gameObject.js";
 
 export class Game {
     constructor() {
