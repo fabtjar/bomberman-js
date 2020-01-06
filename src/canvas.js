@@ -23,6 +23,6 @@ export class Canvas {
     }
 
     draw(image, x, y) {
-        this.ctx.drawImage(image, x, y);
+        this.ctx.drawImage(image, Math.floor(x), Math.floor(y));
     }
 }
