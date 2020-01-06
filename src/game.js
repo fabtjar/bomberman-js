@@ -1,6 +1,6 @@
 import { Canvas } from "./canvas.js";
+import { Player } from "./player.js";
 import { Sprite } from "./sprite.js";
-import { GameObject } from "./gameObject.js";
 
 export class Game {
     constructor() {
@@ -10,7 +10,7 @@ export class Game {
         image.src = "../assets/sprites/wall.png";
         image.onload = () => {
             let sprite = new Sprite(image);
-            this.box = new GameObject(sprite, 32, 32);
+            this.player = new Player(sprite, 32, 32);
 
             this.lastTime = this.getTime();
             this.update();
@@ -21,9 +21,9 @@ export class Game {
 
     update() {
         let dt = this.getDeltaTime();
-        this.box.update(dt);
+        this.player.update(dt);
         this.canvas.clear();
-        this.box.draw(this.canvas);
+        this.player.draw(this.canvas);
         requestAnimationFrame(() => this.update());
     }
 
