@@ -13,10 +13,12 @@ export class GameObject {
 
         if (this.x + moveX < 0 || this.x + moveX > 150 - 16) {
             this.velX *= -1;
+            moveX = this.velX * dt;
         }
 
         if (this.y + moveY < 0 || this.y + moveY > 100 - 16) {
             this.velY *= -1;
+            moveY = this.velY * dt;
         }
 
         this.x += moveX;
