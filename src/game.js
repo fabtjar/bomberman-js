@@ -15,6 +15,8 @@ export class Game {
             this.lastTime = this.getTime();
             this.update();
         }
+
+        window.addEventListener('focus', () => this.lastTime = this.getTime());
     }
 
     update() {
@@ -29,9 +31,7 @@ export class Game {
         let now = this.getTime();
         let dt = (now - this.lastTime) / 1000;
         this.lastTime = now;
-
-        // Incase loosing focus causing a huge delay
-        return Math.min(1, dt);
+        return dt;
     }
 
     getTime() {
