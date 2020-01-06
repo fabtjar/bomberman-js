@@ -1,5 +1,6 @@
 import { Canvas } from "./canvas.js";
 import { Sprite } from "./sprite.js";
+import { GameObject } from "./GameObject.js";
 
 export class Game {
     constructor() {
@@ -9,7 +10,8 @@ export class Game {
         image.src = "../assets/sprites/wall.png";
         image.onload = () => {
             let sprite = new Sprite(image);
-            sprite.draw(canvas, 64, 32);
+            let box = new GameObject(sprite, 32, 32);
+            box.draw(canvas);
         }
     }
 }
