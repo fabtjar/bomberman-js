@@ -15,17 +15,6 @@ export class Canvas {
 
         this.ctx = canvas.getContext('2d');
         this.clear();
-
-        let image = new Image();
-        image.src = "../assets/sprites/wall.png";
-        image.onload = () => {
-            this.draw(image, 0, 0);
-            this.draw(image, 16, 0);
-            this.draw(image, 16, 16);
-            this.draw(image, 32, 16);
-            this.draw(image, 48, 16);
-            this.draw(image, 32, 32);
-        }
     }
 
     clear() {
