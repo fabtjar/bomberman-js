@@ -14,8 +14,8 @@ export class Game {
         image.onload = () => {
             let sprite = new Sprite(image);
             this.player = new Player(this, sprite, 32, 32);
-
             this.map = new GameMap(this, image);
+            this.player.map = this.map;
 
             this.lastTime = this.getTime();
             this.update();

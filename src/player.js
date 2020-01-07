@@ -27,15 +27,16 @@ export class Player extends GameObject {
             moveY = this.vel * Math.sin(moveAngle) * dt;
         }
 
-        if (this.x + moveX < 0 || this.x + moveX > this.game.width - 16) {
-            moveX = 0;
+        let mapCollisionX = this.getMapCollision(this.map, moveX, 0);
+        if (mapCollisionX) {
+            moveX = mapCollisionX.gapX;
         }
-
-        if (this.y + moveY < 0 || this.y + moveY > this.game.height - 16) {
-            moveY = 0;
-        }
-
         this.x += moveX;
+
+        let mapCollisionY = this.getMapCollision(this.map, 0, moveY);
+        if (mapCollisionY) {
+            moveY = mapCollisionY.gapY;
+        }
         this.y += moveY;
     }
 }
