@@ -7,7 +7,7 @@ export class Canvas {
         canvas.height = height;
         canvas.setAttribute(
             "style",
-            "width: " + width * scale + "px;" + 
+            "width: " + width * scale + "px;" +
             "height: " + height * scale + "px;" +
             "image-rendering: pixelated;"
         );
@@ -21,7 +21,15 @@ export class Canvas {
         this.ctx.fillRect(0, 0, this.width, this.height);
     }
 
-    draw(image, x, y) {
-        this.ctx.drawImage(image, Math.floor(x), Math.floor(y));
+    draw(image, x, y, cropWidth, cropHeight, offsetX = 0, offsetY = 0) {
+        const width = cropWidth || image.width;
+        const height = cropHeight || image.height;
+        this.ctx.drawImage(
+            image,
+            offsetX, offsetY,
+            width, height,
+            Math.floor(x), Math.floor(y),
+            width, height
+        );
     }
 }

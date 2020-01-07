@@ -1,9 +1,14 @@
 import { Collider } from "./collider.js";
+import { Sprite } from "./sprite.js";
 
 export class GameMap {
     constructor(game, image) {
-        this.image = game.assets.getImage("wall");
         this.gridSize = 16;
+        this.sprite = new Sprite(
+            game.assets.getImage("wall"),
+            this.gridSize,
+            this.gridSize,
+        );
         this.map = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -40,8 +45,8 @@ export class GameMap {
         for (let y = 0; y < this.map.length; y++) {
             for (let x = 0; x < this.map[y].length; x++) {
                 if (this.map[y][x] == 1) {
-                    canvas.draw(
-                        this.image,
+                    this.sprite.draw(
+                        canvas,
                         this.x + x * this.gridSize,
                         this.y + y * this.gridSize
                     );
