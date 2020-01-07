@@ -1,6 +1,7 @@
 import { Canvas } from "./canvas.js";
 import { Player } from "./player.js";
 import { Sprite } from "./sprite.js";
+import { GameMap } from "./map.js";
 
 export class Game {
     constructor(width, height) {
@@ -14,6 +15,8 @@ export class Game {
             let sprite = new Sprite(image);
             this.player = new Player(this, sprite, 32, 32);
 
+            this.map = new GameMap(this, image);
+
             this.lastTime = this.getTime();
             this.update();
         }
@@ -25,6 +28,7 @@ export class Game {
         let dt = this.getDeltaTime();
         this.player.update(dt);
         this.canvas.clear();
+        this.map.draw(this.canvas);
         this.player.draw(this.canvas);
         requestAnimationFrame(() => this.update());
     }
