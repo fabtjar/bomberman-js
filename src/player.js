@@ -7,6 +7,7 @@ export class Player extends GameObject {
         super(new Sprite(game.assets.getImage("player")), x, y);
         this.game = game;
         this.vel = 100;
+        this.setColliderSize(12);
 
         this.keyboard = new Keyboard();
     }

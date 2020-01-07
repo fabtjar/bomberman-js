@@ -30,4 +30,10 @@ export class GameObject {
         this._collider.y = this.y + this.height / 2;
         return this._collider;
     }
+
+    setColliderSize(width, height = null) {
+        if (height == null) height = width;
+        this._collider.width = width;
+        this._collider.height = height;
+    }
 }
