@@ -2,7 +2,7 @@ import { Collider } from "./collider.js";
 
 export class GameMap {
     constructor(game, image) {
-        this.image = image;
+        this.image = game.assets.getImage("wall");
         this.gridSize = 16;
         this.map = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],

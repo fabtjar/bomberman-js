@@ -1,7 +1,7 @@
 import { Canvas } from "./canvas.js";
 import { Player } from "./player.js";
-import { Sprite } from "./sprite.js";
 import { GameMap } from "./map.js";
+import { Assets } from "./assets.js";
 
 export class Game {
     constructor(width, height) {
@@ -9,19 +9,23 @@ export class Game {
         this.height = height;
         this.canvas = new Canvas(this.width, this.height);
 
-        let image = new Image();
-        image.src = "../assets/sprites/wall.png";
-        image.onload = () => {
-            let sprite = new Sprite(image);
-            this.player = new Player(this, sprite, 32, 32);
-            this.map = new GameMap(this, image);
-            this.player.map = this.map;
-
-            this.lastTime = this.getTime();
-            this.update();
-        }
+        this.assets = new Assets("../assets/");
+        this.assets.loadImages([
+            { name: "wall", src: "sprites/wall.png" },
+            { name: "player", src: "sprites/player.png" },
+        ])
+        .onImagesLoaded = () => this.loaded();
 
         window.addEventListener('focus', () => this.lastTime = this.getTime());
+    }
+
+    loaded() {
+        this.player = new Player(this, 32, 32);
+        this.map = new GameMap(this);
+        this.player.map = this.map;
+
+        this.lastTime = this.getTime();
+        this.update();
     }
 
     update() {

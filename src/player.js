@@ -1,9 +1,10 @@
 import { GameObject } from "./gameObject.js";
 import { Keyboard } from "./keyboard.js";
+import { Sprite } from "./sprite.js";
 
 export class Player extends GameObject {
-    constructor(game, sprite, x, y) {
-        super(sprite, x, y);
+    constructor(game, x, y) {
+        super(new Sprite(game.assets.getImage("player")), x, y);
         this.game = game;
         this.vel = 100;
 
