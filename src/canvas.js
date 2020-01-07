@@ -1,5 +1,7 @@
 export class Canvas {
-    constructor(width, height, scale) {
+    constructor(width, height, scale, x = 0, y = 0) {
+        this.x = 0;
+        this.y = 0;
         this.width = width;
         this.height = height;
         let canvas = document.getElementById("game");
@@ -28,7 +30,7 @@ export class Canvas {
             image,
             offsetX, offsetY,
             width, height,
-            Math.floor(x), Math.floor(y),
+            Math.floor(this.x + x), Math.floor(this.y + y),
             width, height
         );
     }

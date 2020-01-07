@@ -22,7 +22,11 @@ export class Game {
 
     loaded() {
         this.player = new Player(this, 32, 32);
+
         this.map = new GameMap(this);
+        this.canvas.x = (this.canvas.width - this.map.width) / 2;
+        this.canvas.x = (this.canvas.height - this.map.height) / 2;
+
         this.player.map = this.map;
         this.background = new TiledSprite(this.assets.getImage("wall"), 32, 32, 16);
         this.lastTime = this.getTime();
