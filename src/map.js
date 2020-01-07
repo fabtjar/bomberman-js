@@ -2,7 +2,7 @@ import { Collider } from "./collider.js";
 import { Sprite } from "./sprite.js";
 
 export class GameMap {
-    constructor(game, image) {
+    constructor(game) {
         this.gridSize = 16;
         this.sprite = new Sprite(
             game.assets.getImage("wall"),
