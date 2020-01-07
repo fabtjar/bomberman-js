@@ -1,24 +1,37 @@
 import { GameObject } from "./gameObject.js";
+import { Keyboard } from "./keyboard.js";
 
 export class Player extends GameObject {
     constructor(sprite, x, y) {
         super(sprite, x, y);
-        this.velX = 100;
-        this.velY = 60;
+        this.vel = 100;
+
+        this.keyboard = new Keyboard();
     }
 
     update(dt) {
-        let moveX = this.velX * dt;
-        let moveY = this.velY * dt;
+        let inputX = 0;
+        let inputY = 0;
+        if (this.keyboard.isKeyDown("ArrowUp")) inputY--;
+        if (this.keyboard.isKeyDown("ArrowDown")) inputY++;
+        if (this.keyboard.isKeyDown("ArrowLeft")) inputX--;
+        if (this.keyboard.isKeyDown("ArrowRight")) inputX++;
+
+        let moveX = 0;
+        let moveY = 0;
+
+        if (inputX || inputY) {
+            let moveAngle = Math.atan2(inputY, inputX);
+            moveX = this.vel * Math.cos(moveAngle) * dt;
+            moveY = this.vel * Math.sin(moveAngle) * dt;
+        }
 
         if (this.x + moveX < 0 || this.x + moveX > 150 - 16) {
-            this.velX *= -1;
-            moveX = this.velX * dt;
+            moveX = 0;
         }
 
         if (this.y + moveY < 0 || this.y + moveY > 100 - 16) {
-            this.velY *= -1;
-            moveY = this.velY * dt;
+            moveY = 0;
         }
 
         this.x += moveX;
