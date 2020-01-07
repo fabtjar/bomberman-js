@@ -1,8 +1,7 @@
 export class Canvas {
-    constructor(width, height) {
+    constructor(width, height, scale) {
         this.width = width;
         this.height = height;
-        let scale = 5;
         let canvas = document.getElementById("game");
         canvas.width = width;
         canvas.height = height;

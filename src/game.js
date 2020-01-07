@@ -4,10 +4,11 @@ import { GameMap } from "./map.js";
 import { Assets } from "./assets.js";
 
 export class Game {
-    constructor(width, height) {
-        this.width = width;
-        this.height = height;
-        this.canvas = new Canvas(this.width, this.height);
+    constructor() {
+        this.width = 180;
+        this.height = 135;
+        this.scale = 5;
+        this.canvas = new Canvas(this.width, this.height, this.scale);
 
         this.assets = new Assets("../assets/");
         this.assets.loadImages([
