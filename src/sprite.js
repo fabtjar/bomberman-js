@@ -3,8 +3,8 @@ export class Sprite {
         this.image = image;
         this.width = width || image.width;
         this.height = height || image.height;
-        this.offsetX = 0;
-        this.offsetY = 0;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
     }
 
     draw(canvas, x, y) {
