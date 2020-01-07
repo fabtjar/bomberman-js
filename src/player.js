@@ -2,8 +2,9 @@ import { GameObject } from "./gameObject.js";
 import { Keyboard } from "./keyboard.js";
 
 export class Player extends GameObject {
-    constructor(sprite, x, y) {
+    constructor(game, sprite, x, y) {
         super(sprite, x, y);
+        this.game = game;
         this.vel = 100;
 
         this.keyboard = new Keyboard();
@@ -26,11 +27,11 @@ export class Player extends GameObject {
             moveY = this.vel * Math.sin(moveAngle) * dt;
         }
 
-        if (this.x + moveX < 0 || this.x + moveX > 150 - 16) {
+        if (this.x + moveX < 0 || this.x + moveX > this.game.width - 16) {
             moveX = 0;
         }
 
-        if (this.y + moveY < 0 || this.y + moveY > 100 - 16) {
+        if (this.y + moveY < 0 || this.y + moveY > this.game.height - 16) {
             moveY = 0;
         }
 

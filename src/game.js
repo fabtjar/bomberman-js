@@ -3,14 +3,16 @@ import { Player } from "./player.js";
 import { Sprite } from "./sprite.js";
 
 export class Game {
-    constructor() {
-        this.canvas = new Canvas(150, 100);
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+        this.canvas = new Canvas(this.width, this.height);
 
         let image = new Image();
         image.src = "../assets/sprites/wall.png";
         image.onload = () => {
             let sprite = new Sprite(image);
-            this.player = new Player(sprite, 32, 32);
+            this.player = new Player(this, sprite, 32, 32);
 
             this.lastTime = this.getTime();
             this.update();
