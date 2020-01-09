@@ -31,13 +31,13 @@ export class AnimatedSprite extends Sprite {
         this.animFrame = Math.floor(this.animTime / animLength * frameCount);
     }
 
-    getAnimFrameOffsetX() {
+    getFrameOffsetX() {
         if (this.currentAnim == null) return 0;
         return this.animations[this.currentAnim][this.animFrame];
     }
 
     draw(canvas, x, y) {
-        const frameOffsetX = this.getAnimFrameOffsetX();
+        const frameOffsetX = this.getFrameOffsetX();
         canvas.draw(
             this.image,
             x, y,
