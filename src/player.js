@@ -1,10 +1,10 @@
 import { GameObject } from "./gameObject.js";
 import { Keyboard } from "./keyboard.js";
-import { Sprite } from "./sprite.js";
+import { AnimatedSprite } from "./animatedSprite.js";
 
 export class Player extends GameObject {
     constructor(game, x, y) {
-        super(new Sprite(game.assets.getImage("player")), x, y);
+        super(new AnimatedSprite(game.assets.getImage("player")), x, y);
         this.game = game;
         this.vel = 100;
         this.setColliderSize(8, 12);
