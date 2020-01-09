@@ -9,6 +9,10 @@ export class Player extends GameObject {
         this.vel = 100;
         this.setColliderSize(8, 12);
 
+        this.sprite.width = 16;
+        this.sprite.addAnimation("idle", [0]);
+        this.sprite.addAnimation("walk", [1, 0, 2, 0], 10);
+
         this.keyboard = new Keyboard();
     }
 
@@ -27,6 +31,9 @@ export class Player extends GameObject {
             let moveAngle = Math.atan2(inputY, inputX);
             moveX = this.vel * Math.cos(moveAngle) * dt;
             moveY = this.vel * Math.sin(moveAngle) * dt;
+            this.sprite.playAnimation("walk");
+        } else {
+            this.sprite.playAnimation("idle");
         }
 
         let mapCollisionX = this.getMapCollision(this.map, moveX, 0);
@@ -40,5 +47,7 @@ export class Player extends GameObject {
             moveY = mapCollisionY.gapY;
         }
         this.y += moveY;
+
+        this.sprite.updateAnimation(dt);
     }
 }
