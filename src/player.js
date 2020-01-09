@@ -16,38 +16,53 @@ export class Player extends GameObject {
         this.keyboard = new Keyboard();
     }
 
-    update(dt) {
-        let inputX = 0;
-        let inputY = 0;
-        if (this.keyboard.isKeyDown("ArrowUp")) inputY--;
-        if (this.keyboard.isKeyDown("ArrowDown")) inputY++;
-        if (this.keyboard.isKeyDown("ArrowLeft")) inputX--;
-        if (this.keyboard.isKeyDown("ArrowRight")) inputX++;
+    getInput() {
+        let input = { x: 0, y: 0 };
+        if (this.keyboard.isKeyDown("ArrowUp")) input.y--;
+        if (this.keyboard.isKeyDown("ArrowDown")) input.y++;
+        if (this.keyboard.isKeyDown("ArrowLeft")) input.x--;
+        if (this.keyboard.isKeyDown("ArrowRight")) input.x++;
+        return input;
+    }
 
-        let moveX = 0;
-        let moveY = 0;
-
-        if (inputX || inputY) {
-            let moveAngle = Math.atan2(inputY, inputX);
-            moveX = this.vel * Math.cos(moveAngle) * dt;
-            moveY = this.vel * Math.sin(moveAngle) * dt;
-            this.sprite.playAnimation("walk");
-        } else {
-            this.sprite.playAnimation("idle");
+    getMovement(dt, input) {
+        let movement = { x: 0, y: 0 };
+        if (input.x || input.y) {
+            let moveAngle = Math.atan2(input.y, input.x);
+            movement.x = this.vel * Math.cos(moveAngle) * dt;
+            movement.y = this.vel * Math.sin(moveAngle) * dt;
         }
+        return movement;
+    }
 
-        let mapCollisionX = this.getMapCollision(this.map, moveX, 0);
-        if (mapCollisionX) {
-            moveX = mapCollisionX.gapX;
-        }
-        this.x += moveX;
-
-        let mapCollisionY = this.getMapCollision(this.map, 0, moveY);
-        if (mapCollisionY) {
-            moveY = mapCollisionY.gapY;
-        }
-        this.y += moveY;
-
+    updateAnimation(dt, isInput) {
+        this.sprite.playAnimation(isInput ? "walk" : "idle");
         this.sprite.updateAnimation(dt);
+    }
+
+    getCollisionMovement(movement) {
+        let mapCollisionX = this.getMapCollision(this.map, movement.x, 0);
+        if (mapCollisionX) movement.x = mapCollisionX.gapX;
+
+        // Use movement.x as this is where the player would now be
+        let mapCollisionY = this.getMapCollision(this.map, movement.x, movement.y);
+        if (mapCollisionY) movement.y = mapCollisionY.gapY;
+
+        return movement;
+    }
+
+    move(movement) {
+        this.x += movement.x;
+        this.y += movement.y;
+    }
+
+    update(dt) {
+        const input = this.getInput();
+
+        let movement = this.getMovement(dt, input);
+        movement = this.getCollisionMovement(movement);
+        this.move(movement);
+
+        this.updateAnimation(dt, input.x || input.y);
     }
 }
