@@ -14,6 +14,10 @@ export class GameObject {
         this.sprite.draw(canvas, this.x, this.y);
     }
 
+    update(dt) {
+        this.sprite.updateAnimation(dt);
+    }
+
     getMapCollision(gameMap, moveX, moveY) {
         for (let i = 0; i < gameMap.colliders.length; i++) {
             let collision = this.getCollider().isOverlapping(gameMap.colliders[i], moveX, moveY);

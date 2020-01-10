@@ -3,6 +3,7 @@ import { Player } from "./player.js";
 import { GameMap } from "./map.js";
 import { Assets } from "./assets.js";
 import { TiledSprite } from "./tiledSprite.js";
+import { Bomb } from "./bomb.js";
 
 export class Game {
     constructor() {
@@ -15,6 +16,7 @@ export class Game {
         this.assets.loadImages([
             { name: "wall", src: "sprites/wall.png" },
             { name: "player", src: "sprites/player.png" },
+            { name: "bomb", src: "sprites/bomb.png" },
         ]).onImagesLoaded = () => this.loaded();
 
         window.addEventListener('focus', () => this.lastTime = this.getTime());
@@ -22,6 +24,7 @@ export class Game {
 
     loaded() {
         this.player = new Player(this, 32, 32);
+        this.bombs = [];
 
         this.map = new GameMap(this);
         this.canvas.x = (this.canvas.width - this.map.width) / 2;
@@ -36,9 +39,11 @@ export class Game {
     update() {
         let dt = this.getDeltaTime();
         this.player.update(dt);
+        this.bombs.forEach(bomb => bomb.update(dt));
         this.canvas.clear();
         this.background.draw(this.canvas, 0, 0, this.width, this.height);
         this.map.draw(this.canvas);
+        this.bombs.forEach(bomb => bomb.draw(this.canvas));
         this.player.draw(this.canvas);
         requestAnimationFrame(() => this.update());
     }
