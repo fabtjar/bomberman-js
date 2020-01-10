@@ -27,9 +27,15 @@ export class AnimatedSprite extends Sprite {
 
         const frameCount = this.animations[this.currentAnim].length;
         const animLength = frameCount * 1 / this.animations[this.currentAnim].fps;
-        this.animTime = (this.animTime + dt) % animLength;
+        this.animTime += dt;
+        if (this.animTime >= animLength) {
+            this.onAnimationEnd(this.animations[this.currentAnim]);
+        }
+        this.animTime %= animLength;
         this.animFrame = Math.floor(this.animTime / animLength * frameCount);
     }
+
+    onAnimationEnd(anim) { }
 
     getFrameOffsetX() {
         if (this.currentAnim == null) return 0;
