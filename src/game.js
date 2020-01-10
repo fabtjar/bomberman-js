@@ -44,7 +44,17 @@ export class Game {
     update() {
         let dt = this.getDeltaTime();
         this.player.update(dt);
-        this.bombs.forEach(bomb => bomb.update(dt));
+        this.bombs.forEach(bomb => {
+            bomb.update(dt);
+            if (bomb.isDead) {
+                this.fires.push(new Fire(this, bomb.x, bomb.y));
+                this.fires.push(new Fire(this, bomb.x - 16, bomb.y));
+                this.fires.push(new Fire(this, bomb.x + 16, bomb.y));
+                this.fires.push(new Fire(this, bomb.x, bomb.y - 16));
+                this.fires.push(new Fire(this, bomb.x, bomb.y + 16));
+                this.bombs.splice(this.bombs.indexOf(bomb), 1);
+            }
+        });
         this.fires.forEach(fire => {
             fire.update(dt);
             if (fire.isDead) {
