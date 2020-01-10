@@ -4,19 +4,26 @@ import { Sprite } from "./sprite.js";
 export class GameMap {
     constructor(game) {
         this.gridSize = 16;
-        this.sprite = new Sprite(
+        this.wallSprite = new Sprite(
             game.assets.getImage("wall"),
             this.gridSize,
             this.gridSize,
         );
+        this.blockSprite = new Sprite(
+            game.assets.getImage("wall"),
+            this.gridSize,
+            this.gridSize,
+            0,
+            this.gridSize
+        );
         this.map = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1],
-            [1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1],
-            [1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 1],
+            [1, 0, 0, 2, 1, 1, 1, 0, 1, 0, 0, 1],
+            [1, 1, 1, 2, 1, 0, 0, 0, 1, 0, 0, 1],
+            [1, 0, 2, 2, 1, 0, 0, 0, 1, 1, 1, 1],
+            [1, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 1],
             [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ];
@@ -24,11 +31,21 @@ export class GameMap {
         this.height = this.map.length * this.gridSize;
         this.x = 0;
         this.y = 0;
-        this.colliders = [];
+        this.wallColliders = [];
+        this.blockColliders = [];
         for (let y = 0; y < this.map.length; y++) {
             for (let x = 0; x < this.map[y].length; x++) {
                 if (this.map[y][x] == 1) {
-                    this.colliders.push(
+                    this.wallColliders.push(
+                        new Collider(
+                            this.gridSize,
+                            this.gridSize,
+                            x * this.gridSize + this.gridSize / 2,
+                            y * this.gridSize + this.gridSize / 2
+                        )
+                    )
+                } else if (this.map[y][x] == 2) {
+                    this.blockColliders.push(
                         new Collider(
                             this.gridSize,
                             this.gridSize,
@@ -39,13 +56,24 @@ export class GameMap {
                 }
             }
         }
+        this.updateColliders();
+    }
+
+    updateColliders() {
+        this.colliders = this.wallColliders.concat(this.blockColliders);
     }
 
     draw(canvas) {
         for (let y = 0; y < this.map.length; y++) {
             for (let x = 0; x < this.map[y].length; x++) {
                 if (this.map[y][x] == 1) {
-                    this.sprite.draw(
+                    this.wallSprite.draw(
+                        canvas,
+                        this.x + x * this.gridSize,
+                        this.y + y * this.gridSize
+                    );
+                } else if (this.map[y][x] == 2) {
+                    this.blockSprite.draw(
                         canvas,
                         this.x + x * this.gridSize,
                         this.y + y * this.gridSize
