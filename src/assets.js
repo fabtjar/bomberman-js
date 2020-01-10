@@ -19,8 +19,6 @@ export class Assets {
         return this;
     }
 
-    onImagesLoaded(images) {}
-
     getImage(name) {
         return this._images[name];
     }

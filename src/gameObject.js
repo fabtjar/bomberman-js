@@ -10,8 +10,6 @@ export class GameObject {
         this._collider = new Collider(this.width, this.height);
     }
 
-    update(dt) { }
-
     draw(canvas) {
         this.sprite.draw(canvas, this.x, this.y);
     }
