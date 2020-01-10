@@ -33,6 +33,7 @@ export class GameMap {
         this.y = 0;
         this.wallColliders = [];
         this.blockColliders = [];
+        this.blockColliderPositions = {};
         for (let y = 0; y < this.map.length; y++) {
             for (let x = 0; x < this.map[y].length; x++) {
                 if (this.map[y][x] == 1) {
@@ -45,14 +46,13 @@ export class GameMap {
                         )
                     )
                 } else if (this.map[y][x] == 2) {
-                    this.blockColliders.push(
-                        new Collider(
-                            this.gridSize,
-                            this.gridSize,
-                            x * this.gridSize + this.gridSize / 2,
-                            y * this.gridSize + this.gridSize / 2
-                        )
+                    this.blockColliderPositions[x + "_" + y] = new Collider(
+                        this.gridSize,
+                        this.gridSize,
+                        x * this.gridSize + this.gridSize / 2,
+                        y * this.gridSize + this.gridSize / 2
                     )
+                    this.blockColliders.push(this.blockColliderPositions[x + "_" + y]);
                 }
             }
         }
@@ -61,6 +61,14 @@ export class GameMap {
 
     updateColliders() {
         this.colliders = this.wallColliders.concat(this.blockColliders);
+    }
+
+    checkFireDestroyed(x, y) {
+        if (this.map[y][x] == 2) {
+            this.map[y][x] = 0;
+            this.blockColliders.splice(this.blockColliders.indexOf(this.blockColliderPositions[x + "_" + y]), 1);
+            this.updateColliders();
+        }
     }
 
     draw(canvas) {

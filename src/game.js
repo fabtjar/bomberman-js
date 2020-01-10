@@ -70,6 +70,10 @@ export class Game {
         requestAnimationFrame(() => this.update());
     }
 
+    checkFireOnMap(x, y) {
+        this.map.checkFireDestroyed(x, y);
+    }
+
     getDeltaTime() {
         let now = this.getTime();
         let dt = (now - this.lastTime) / 1000;

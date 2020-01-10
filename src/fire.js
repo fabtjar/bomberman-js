@@ -8,5 +8,6 @@ export class Fire extends GameObject {
         this.sprite.addAnimation("fire", [2, 3, 4, 5, 6, 7, 8, 9], 20);
         this.isDead = false;
         this.sprite.onAnimationEnd = () => this.isDead = true;
+        game.checkFireOnMap(Math.floor(this.x / 16), Math.floor(this.y / 16));
     }
 }
