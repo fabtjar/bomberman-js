@@ -1,17 +1,37 @@
 export class Keyboard {
     constructor() {
-        let isKeyDown = {};
-        document.onkeydown = (e) => {
-            isKeyDown[e.code] = true;
-        };
-        document.onkeyup = (e) => {
-            isKeyDown[e.code] = false;
-        };
-        this.isKeyDown = (code) => {
-            if (!(code in isKeyDown)) {
-                isKeyDown[code] = false;
-            }
-            return isKeyDown[code];
-        };
+        this._isKeyDown = {};
+        document.onkeydown = e => this.onKeyDown(e);
+        document.onkeyup = e => this.onKeyUp(e);
+        this.update();
+    }
+
+    onKeyDown(e) {
+        this._isKeyDown[e.code] = true;
+    }
+
+    onKeyUp(e) {
+        if (this.isKeyDown(e.code)) {
+            this._isKeyReleased[e.code] = true;
+        }
+        this._isKeyDown[e.code] = false;
+    }
+
+    isKeyDown(code) {
+        if (!(code in this._isKeyDown)) {
+            this._isKeyDown[code] = false;
+        }
+        return this._isKeyDown[code];
+    }
+
+    isKeyReleased(code) {
+        if (!(code in this._isKeyReleased)) {
+            this._isKeyReleased[code] = false;
+        }
+        return this._isKeyReleased[code];
+    }
+
+    update() {
+        this._isKeyReleased = {};
     }
 }
