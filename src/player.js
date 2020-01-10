@@ -18,10 +18,16 @@ export class Player extends GameObject {
 
     getInput() {
         let input = { x: 0, y: 0 };
+
         if (this.keyboard.isKeyDown("ArrowUp")) input.y--;
         if (this.keyboard.isKeyDown("ArrowDown")) input.y++;
         if (this.keyboard.isKeyDown("ArrowLeft")) input.x--;
         if (this.keyboard.isKeyDown("ArrowRight")) input.x++;
+
+        input.bomb = this.keyboard.isKeyReleased("KeyZ");
+
+        this.keyboard.update();
+
         return input;
     }
 
@@ -56,12 +62,24 @@ export class Player extends GameObject {
         this.y += movement.y;
     }
 
+    checkPlantBomb(isPlantingBomb) {
+        if (isPlantingBomb) {
+            this.onPlantBomb
+            (Math.floor((this.x + this.width / 2) / 16),
+            Math.floor((this.y + this.height / 2) / 16));
+        }
+    }
+
+    onPlantBomb(x, y) { }
+
     update(dt) {
         const input = this.getInput();
 
         let movement = this.getMovement(dt, input);
         movement = this.getCollisionMovement(movement);
         this.move(movement);
+
+        this.checkPlantBomb(input.bomb);
 
         this.updateAnimation(dt, input.x || input.y);
     }

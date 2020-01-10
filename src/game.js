@@ -25,6 +25,9 @@ export class Game {
     loaded() {
         this.player = new Player(this, 32, 32);
         this.bombs = [];
+        this.player.onPlantBomb = (x, y) => {
+            this.bombs.push(new Bomb(this, x, y));
+        }
 
         this.map = new GameMap(this);
         this.canvas.x = (this.canvas.width - this.map.width) / 2;
