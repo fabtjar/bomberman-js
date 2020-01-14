@@ -38,4 +38,12 @@ export class GameObject {
         this._collider.width = width;
         this._collider.height = height;
     }
+
+    getMapX() {
+        return Math.floor(this.x / 16);
+    }
+
+    getMapY() {
+        return Math.floor(this.y / 16);
+    }
 }
