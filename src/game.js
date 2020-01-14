@@ -48,10 +48,6 @@ export class Game {
             bomb.update(dt);
             if (bomb.isDead) {
                 this.fires.push(new Fire(this, bomb.x, bomb.y));
-                this.fires.push(new Fire(this, bomb.x - 16, bomb.y));
-                this.fires.push(new Fire(this, bomb.x + 16, bomb.y));
-                this.fires.push(new Fire(this, bomb.x, bomb.y - 16));
-                this.fires.push(new Fire(this, bomb.x, bomb.y + 16));
                 this.bombs.splice(this.bombs.indexOf(bomb), 1);
             }
         });
@@ -70,8 +66,13 @@ export class Game {
         requestAnimationFrame(() => this.update());
     }
 
-    checkFireOnMap(x, y) {
-        this.map.checkFireDestroyed(x, y);
+    checkFireOnMap(x, y, dir) {
+        if (this.map.checkFireDestroyed(x, y)) return;
+        if (this.map.getTile(x, y) == 0) {
+            if (this.map.canFireOnTile(x + dir.x, y + dir.y)) {
+                this.fires.push(new Fire(this, (x + dir.x) * 16, (y + dir.y) * 16, dir));
+            }
+        }
     }
 
     getDeltaTime() {

@@ -63,11 +63,21 @@ export class GameMap {
         this.colliders = this.wallColliders.concat(this.blockColliders);
     }
 
+    getTile(x, y) {
+        return this.map[y][x];
+    }
+
+    canFireOnTile(x, y) {
+        const tile = this.map[y][x];
+        return tile == 0 || tile == 2;
+    }
+
     checkFireDestroyed(x, y) {
         if (this.map[y][x] == 2) {
             this.map[y][x] = 0;
             this.blockColliders.splice(this.blockColliders.indexOf(this.blockColliderPositions[x + "_" + y]), 1);
             this.updateColliders();
+            return true;
         }
     }
 
