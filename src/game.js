@@ -8,9 +8,9 @@ import { Fire } from "./fire.js";
 
 export class Game {
     constructor() {
-        this.width = 180;
-        this.height = 135;
-        this.scale = 5;
+        this.width = 240;
+        this.height = 180;
+        this.scale = 4;
         this.canvas = new Canvas(this.width, this.height, this.scale);
 
         this.assets = new Assets("../assets/");
@@ -24,7 +24,7 @@ export class Game {
     }
 
     loaded() {
-        this.player = new Player(this, 32, 32);
+        this.player = new Player(this, 16, 32);
         this.bombs = [];
         this.fires = [];
         this.player.onPlantBomb = (x, y) => {
@@ -32,8 +32,7 @@ export class Game {
         }
 
         this.map = new GameMap(this);
-        this.canvas.x = (this.canvas.width - this.map.width) / 2;
-        this.canvas.x = (this.canvas.height - this.map.height) / 2;
+        this.canvas.y = -2;
 
         this.player.map = this.map;
         this.background = new TiledSprite(this.assets.getImage("wall"), 32, 32, 16);
@@ -58,7 +57,7 @@ export class Game {
             }
         });
         this.canvas.clear();
-        this.background.draw(this.canvas, 0, 0, this.width, this.height);
+        this.background.draw(this.canvas, 0, 0, this.map.width, this.map.height);
         this.map.draw(this.canvas);
         this.bombs.forEach(bomb => bomb.draw(this.canvas));
         this.player.draw(this.canvas);
