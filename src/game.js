@@ -28,7 +28,7 @@ export class Game {
         this.bombs = [];
         this.fires = [];
         this.player.onPlantBomb = (x, y) => {
-            this.bombs.push(new Bomb(this, x, y));
+            this.bombs.push(new Bomb(this, x * 16, y * 16));
         }
 
         this.map = new GameMap(this);
