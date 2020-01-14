@@ -75,7 +75,9 @@ export class Game {
 
     addNewFire(x, y, bomb, power, dir) {
         if (this.map.canFireOnTile(Math.floor(x / 16), Math.floor(y / 16))) {
-            this.fires.push(new Fire(this, x, y, bomb, power, dir));
+            const fire = new Fire(this, x, y, bomb, power, dir)
+            this.fires.push(fire);
+            this.bombs.forEach(b => b.checkFireHit(fire));
         }
     }
 

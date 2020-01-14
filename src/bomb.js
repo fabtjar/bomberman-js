@@ -15,4 +15,14 @@ export class Bomb extends GameObject {
         this.boomTime -= dt;
         if (this.boomTime <= 0) this.isDead = true;
     }
+
+    earlyBoom(delay = 0.1) {
+        this.boomTime = Math.min(this.boomTime, delay);
+    }
+
+    checkFireHit(fire) {
+        if (this != fire.bomb && this.x == fire.x && this.y == fire.y) {
+            this.earlyBoom();
+        }
+    }
 }
