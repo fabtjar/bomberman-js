@@ -47,7 +47,7 @@ export class Game {
         this.bombs.forEach(bomb => {
             bomb.update(dt);
             if (bomb.isDead) {
-                this.fires.push(new Fire(this, bomb.x, bomb.y));
+                this.fires.push(new Fire(this, bomb.x, bomb.y, bomb.power));
                 this.bombs.splice(this.bombs.indexOf(bomb), 1);
             }
         });
@@ -66,11 +66,11 @@ export class Game {
         requestAnimationFrame(() => this.update());
     }
 
-    checkFireOnMap(x, y, dir) {
+    checkFireOnMap(x, y, power, dir) {
         if (this.map.checkFireDestroyed(x, y)) return;
         if (this.map.getTile(x, y) == 0) {
-            if (this.map.canFireOnTile(x + dir.x, y + dir.y)) {
-                this.fires.push(new Fire(this, (x + dir.x) * 16, (y + dir.y) * 16, dir));
+            if (power >= 0 && this.map.canFireOnTile(x + dir.x, y + dir.y)) {
+                this.fires.push(new Fire(this, (x + dir.x) * 16, (y + dir.y) * 16, power, dir));
             }
         }
     }
