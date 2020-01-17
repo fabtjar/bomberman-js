@@ -68,7 +68,6 @@ export class Game {
         this.bombs.forEach(bomb => {
             if (bomb.x == x && bomb.y == y) {
                 isBomb = true;
-                return;
             }
         });
         if (!isBomb) this.bombs.push(new Bomb(this, x, y));
