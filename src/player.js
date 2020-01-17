@@ -64,9 +64,9 @@ export class Player extends GameObject {
 
     checkPlantBomb(isPlantingBomb) {
         if (isPlantingBomb) {
-            this.onPlantBomb
-            (Math.floor((this.x + this.width / 2) / 16),
-            Math.floor((this.y + this.height / 2) / 16));
+            const x = Math.floor((this.x + this.width / 2) / 16) * 16;
+            const y = Math.floor((this.y + this.height / 2) / 16) * 16;
+            this.onPlantBomb(x, y);
         }
     }
 

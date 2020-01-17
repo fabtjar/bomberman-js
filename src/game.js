@@ -27,9 +27,7 @@ export class Game {
         this.player = new Player(this, 16, 32);
         this.bombs = [];
         this.fires = [];
-        this.player.onPlantBomb = (x, y) => {
-            this.bombs.push(new Bomb(this, x * 16, y * 16));
-        }
+        this.player.onPlantBomb = (x, y) => this.plantBomb(x, y);
 
         this.map = new GameMap(this);
         this.canvas.y = -2;
@@ -63,6 +61,17 @@ export class Game {
         this.player.draw(this.canvas);
         this.fires.forEach(fire => fire.draw(this.canvas));
         requestAnimationFrame(() => this.update());
+    }
+
+    plantBomb(x, y) {
+        let isBomb = false;
+        this.bombs.forEach(bomb => {
+            if (bomb.x == x && bomb.y == y) {
+                isBomb = true;
+                return;
+            }
+        });
+        if (!isBomb) this.bombs.push(new Bomb(this, x, y));
     }
 
     checkFireOnMap(fire) {
