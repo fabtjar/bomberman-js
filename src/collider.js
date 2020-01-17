@@ -7,6 +7,7 @@ export class Collider {
     }
 
     isOverlapping(other, moveX = 0, moveY = 0) {
+        if (!other) return;
         if (
             this.x + moveX - this.width / 2 < other.x + other.width / 2 &&
             this.x + moveX + this.width / 2 > other.x - other.width / 2 &&
