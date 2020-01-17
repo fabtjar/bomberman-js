@@ -70,8 +70,6 @@ export class Player extends GameObject {
         }
     }
 
-    onPlantBomb(x, y) { }
-
     update(dt) {
         const input = this.getInput();
 
