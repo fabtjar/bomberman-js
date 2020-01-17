@@ -40,7 +40,9 @@ export class Game {
 
     update() {
         let dt = this.getDeltaTime();
-        this.player.update(dt);
+        this.player.update(dt, {
+            bombs: this.bombs.map(bomb => bomb.getCollider()),
+        })
         this.bombs.forEach(bomb => {
             bomb.update(dt);
             if (bomb.isDead) {
@@ -70,7 +72,11 @@ export class Game {
                 isBomb = true;
             }
         });
-        if (!isBomb) this.bombs.push(new Bomb(this, x, y));
+        if (!isBomb) {
+            const bomb = new Bomb(this, x, y);
+            this.player.touchingBombs.push(bomb.getCollider());
+            this.bombs.push(bomb);
+        }
     }
 
     checkFireOnMap(fire) {

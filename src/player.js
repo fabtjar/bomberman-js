@@ -14,6 +14,8 @@ export class Player extends GameObject {
         this.sprite.addAnimation("walk", [1, 0, 2, 0], 10);
 
         this.keyboard = new Keyboard();
+
+        this.touchingBombs = [];
     }
 
     getInput() {
@@ -46,13 +48,41 @@ export class Player extends GameObject {
         this.sprite.updateAnimation(dt);
     }
 
-    getCollisionMovement(movement) {
+    checkCurrentBombCollision() {
+        this.touchingBombs.forEach(bomb => {
+            if (!this.getCollider().isOverlapping(bomb, 0, 0)) {
+                this.touchingBombs.splice(this.touchingBombs.indexOf(bomb), 1);
+            }
+        });
+    }
+
+    isTouchingBomb(bomb) {
+        let isTouching = false;
+        this.touchingBombs.forEach(touchingBomb => {
+            if (touchingBomb == bomb) isTouching = true;
+        });
+        return isTouching;
+    }
+
+    getCollisionMovement(movement, colliders) {
         let mapCollisionX = this.getMapCollision(this.map, movement.x, 0);
         if (mapCollisionX) movement.x = mapCollisionX.gapX;
+
+        colliders.bombs.forEach(bomb => {
+            if (this.isTouchingBomb(bomb)) return;
+            let collision = this.getCollider().isOverlapping(bomb, movement.x, 0);
+            if (collision) movement.x = collision.gapX;
+        });
 
         // Use movement.x as this is where the player would now be
         let mapCollisionY = this.getMapCollision(this.map, movement.x, movement.y);
         if (mapCollisionY) movement.y = mapCollisionY.gapY;
+
+        colliders.bombs.forEach(bomb => {
+            if (this.isTouchingBomb(bomb)) return;
+            let collision = this.getCollider().isOverlapping(bomb, movement.x, movement.y);
+            if (collision) movement.y = collision.gapY;
+        });
 
         return movement;
     }
@@ -70,13 +100,14 @@ export class Player extends GameObject {
         }
     }
 
-    update(dt) {
+    update(dt, colliders) {
         const input = this.getInput();
 
         let movement = this.getMovement(dt, input);
-        movement = this.getCollisionMovement(movement);
+        movement = this.getCollisionMovement(movement, colliders);
         this.move(movement);
 
+        this.checkCurrentBombCollision();
         this.checkPlantBomb(input.bomb);
 
         this.updateAnimation(dt, input.x || input.y);
